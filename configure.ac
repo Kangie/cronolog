@@ -48,9 +48,7 @@ dnl Checks for libraries.
 
 dnl Checks for header files.
 
-AC_HEADER_STDC
 AC_HEADER_STAT
-AC_HEADER_TIME
 AC_STRUCT_TM
 AC_STRUCT_TIMEZONE
 AC_CHECK_HEADERS([fcntl.h langinfo.h libintl.h limits.h locale.h stdlib.h string.h sys/time.h unistd.h])
