@@ -70,6 +70,8 @@
  */
 
 #include "cronoutils.h"
+#include <strings.h>
+
 /*extern char *tzname[2];*/
 
 

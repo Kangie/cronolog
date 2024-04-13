@@ -82,9 +82,11 @@
  * written to "file" (e.g. /dev/console) or to stderr if "file" is "-".
  */
 
+#include "config.h"
 #include "cronoutils.h"
 #include "getopt.h"
 
+#include <time.h>
 
 /* Forward function declaration */
 
