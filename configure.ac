@@ -32,6 +32,7 @@ AC_CONFIG_HEADERS(config.h)
 AC_CONFIG_AUX_DIR(config)
 AM_INIT_AUTOMAKE
 
+AC_DEFINE([_XOPEN_SOURCE], [500], [Enable X/Open extensions])
 
 dnl Checks for programs.
 
