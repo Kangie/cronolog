@@ -1,0 +1,14 @@
+*.a
+*.o
+*~
+autom4te.cache
+config.h
+config.log
+config.status
+configure
+lib/.deps
+Makefile
+src/.deps
+src/cronolog
+src/cronotest
+stamp-*
