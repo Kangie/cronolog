@@ -33,6 +33,7 @@ AC_CONFIG_AUX_DIR(config)
 AM_INIT_AUTOMAKE
 
 AC_DEFINE([_XOPEN_SOURCE], [500], [Enable X/Open extensions])
+AC_DEFINE([_GNU_SOURCE], [1], [Enable GNU extensions]) # Large file support
 
 dnl Checks for programs.
 
