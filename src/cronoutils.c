@@ -291,9 +291,21 @@ determine_periodicity(char *spec)
     {
 	if (ch == '%')
 	{
-	    ch = *spec++;
-	    if (!ch) break;
+	    do {
+		ch = *spec++;
+		if (!ch) break;
 	    
+		switch(ch) {
+		case '_':
+		case '-':
+		case '0':
+		    continue;
+		}
+		break;
+	    } while(1);
+
+	    if(!ch) break;
+
 	    switch (ch)
 	    {
 	    case 'y':		/* two digit year */
