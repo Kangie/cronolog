@@ -86,6 +86,7 @@
 #include "cronoutils.h"
 #include "getopt.h"
 
+#include <signal.h>
 #include <time.h>
 
 /* Forward function declaration */
@@ -93,7 +94,7 @@
 int	new_log_file(const char *, const char *, mode_t, const char *,
 		     PERIODICITY, int, int, char *, size_t, time_t, time_t *);
 
-
+void  terminate_self(int);
 /* Definition of version and usage messages */
 
 #ifndef _WIN32
@@ -349,6 +350,10 @@ main(int argc, char **argv)
     DEBUG(("Rotation period is per %d %s\n", period_multiple, periods[periodicity]));
 
 
+    /* set up signal handlers to catch USR1 and HUP when restarting Apache */
+    signal(SIGUSR1, terminate_self);
+    signal(SIGHUP, terminate_self);
+
     /* Loop, waiting for data on standard input */
 
     for (;;)
@@ -406,4 +411,12 @@ main(int argc, char **argv)
 
     /* NOTREACHED */
     return 1;
+}
+
+void terminate_self(int sig)
+{
+    time_t time_now = time(NULL);
+    DEBUG(("%s (%d): received signal USR1; terminating.\n",
+		timestamp(time_now), time_now));
+    exit(6);
 }
