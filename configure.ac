@@ -55,7 +55,7 @@ AC_HEADER_STAT
 AC_HEADER_TIME
 AC_STRUCT_TM
 AC_STRUCT_TIMEZONE
-AC_CHECK_HEADERS([fcntl.h langinfo.h libintl.h limits.h locale.h stdlib.h string.h sys/time.h unistd.h])
+AC_CHECK_HEADERS([fcntl.h langinfo.h libintl.h limits.h locale.h stdlib.h string.h sys/time.h sys/types.h unistd.h])
 
 
 dnl Checks for typedefs, structures, and compiler characteristics.
@@ -64,6 +64,7 @@ AC_C_CONST
 AC_TYPE_MODE_T
 AC_TYPE_PID_T
 AC_TYPE_SIZE_T
+AC_TYPE_UID_T
 AC_STRUCT_TM
 
 dnl Checks for library functions.

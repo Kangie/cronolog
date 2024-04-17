@@ -85,6 +85,8 @@
 #include <limits.h>
 #ifndef _WIN32
 #include <unistd.h>
+#include <pwd.h>
+#include <grp.h>
 #else
 #include <io.h>
 #include <direct.h>
@@ -177,7 +179,8 @@ time_t		start_of_this_period(time_t, PERIODICITY, int);
 void		print_debug_msg(char *msg, ...);
 time_t		parse_time(char *time_str, int);
 char 		*timestamp(time_t thetime);
-
+uid_t		parse_uid(char *user, char *argv0);
+gid_t		parse_gid(char *group, char *argv0);
 
 /* Global variables */
 

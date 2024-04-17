@@ -102,6 +102,12 @@ int	new_log_file(const char *, const char *, mode_t, const char *,
 #define VERSION_MSG      "cronolog version 0.1\n"
 #endif
 
+#ifndef _WIN32
+#define SETUGID_USAGE	"   -u USER,   --set-uid=USER  change to USER before doing anything (name or UID)\n" \
+			"   -g GROUP,  --set-gid=GROUP change to GROUP before doing anything (name or GID)\n"
+#else
+#define SETUGID_USAGE	""
+#endif
 
 #define USAGE_MSG 	"usage: %s [OPTIONS] logfile-spec\n" \
 			"\n" \
@@ -119,12 +125,17 @@ int	new_log_file(const char *, const char *, mode_t, const char *,
 			"   -e,        --european      European date formats (default)\n" \
 			"   -s TIME,   --start-time=TIME   starting time\n" \
 			"   -z TZ,     --time-zone=TZ  use TZ for timezone\n" \
+			SETUGID_USAGE \
 			"   -V,        --version       print version number, then exit\n"
 
 
 /* Definition of the short and long program options */
 
+#ifndef _WIN32
+char          *short_options = "ad:eop:s:z:H:P:S:l:hVx:u:g:";
+#else
 char          *short_options = "ad:eop:s:z:H:P:S:l:hVx:";
+#endif
 
 #ifndef _WIN32
 struct option long_options[] =
@@ -139,6 +150,8 @@ struct option long_options[] =
     { "link",      	required_argument, 	NULL, 'l' },
     { "period",		required_argument,	NULL, 'p' },
     { "delay",		required_argument,	NULL, 'd' },
+    { "set-uid",      	required_argument,     	NULL, 'u' },
+    { "set-gid",      	required_argument,     	NULL, 'g' },
     { "once-only", 	no_argument,       	NULL, 'o' },
     { "help",      	no_argument,       	NULL, 'h' },
     { "version",   	no_argument,       	NULL, 'V' },
@@ -163,6 +176,12 @@ main(int argc, char **argv)
     char	*template;
     char	*linkname = NULL;
     char	*prevlinkname = NULL;
+#ifndef _WIN32
+    uid_t	new_uid = 0;
+    gid_t	new_gid = 0;
+    int		change_uid = 0;
+    int		change_gid = 0;
+#endif
     mode_t	linktype = 0;
     int 	n_bytes_read;
     int		ch;
@@ -237,6 +256,16 @@ main(int argc, char **argv)
 	    }		
 	    break;
 	    
+#ifndef _WIN32
+	case 'u':
+	    new_uid = parse_uid(optarg, argv[0]);
+	    change_uid = 1;
+	    break;
+	case 'g':
+	    new_gid = parse_gid(optarg, argv[0]);
+	    change_gid = 1;
+	    break;
+#endif
 	case 'o':
 	    periodicity = ONCE_ONLY;
 	    break;
@@ -268,6 +297,17 @@ main(int argc, char **argv)
 	fprintf(stderr, USAGE_MSG, argv[0]);
 	exit(1);
     }
+
+#ifndef _WIN32
+    if (change_gid && setgid(new_gid) == -1) {
+	fprintf(stderr, "setgid: unable to change to gid: %d\n", new_gid);
+       	exit(1);
+    }
+    if (change_uid && setuid(new_uid) == -1) {
+	fprintf(stderr, "setuid: unable to change to uid: %d\n", new_uid);
+       	exit(1);
+    }
+#endif
 
     DEBUG((VERSION_MSG "\n"));
 

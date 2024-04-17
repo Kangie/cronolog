@@ -89,6 +89,20 @@ specified for the previous link.
 .IP --help
 print a help message and then exit.
 .\"
+.IP "-u \fIUSER\fP"
+.IP "--set-uid=\fIUSER\fP"
+sets the user ID of the cronolog process before any logs are opened.
+\fIUSER\fP can be a username or a numeric user ID. If \fIUSER\fP
+contains solely digits, it will be assumed to be a numeric user ID;
+otherwise, it will be assumed to be a username.
+.\"
+.IP "-g \fIGROUP\fP"
+.IP "--set-gid=\fIGROUP\fP"
+sets the group ID of the cronolog process before any logs are opened.
+\fIGROUP\fP can be a group name or a numeric group ID. If \fIGROUP\fP
+contains solely digits, it will be assumed to be a numeric group ID;
+otherwise, it will be assumed to be a group name.
+.\"
 .IP "-p \fIPERIOD\fP"
 .IP "--period=\fIPERIOD\fP"
 specifies the period explicitly as an optional digit string followed

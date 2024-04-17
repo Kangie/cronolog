@@ -764,4 +764,50 @@ timestamp(time_t thetime)
     return retval;
 }
 
-    
+
+#ifndef _WIN32
+/* Turn a string specifying either a username or UID into an actual
+ * uid_t for use in setuid(). A string is assumed to be a UID if
+ * it contains only decimal digits. */
+uid_t
+parse_uid(char *user, char *argv0)
+{
+    char		*probe = user;
+    struct passwd	*ent;
+
+    while (*probe && isdigit(*probe)) {
+	probe++;
+    }
+    if (!(*probe)) {
+	return atoi(user);
+    }
+    if (!(ent = getpwnam(user))) {
+	fprintf(stderr, "%s: Bad username %s\n", argv0, user);
+	exit(1);
+    }
+    return (ent->pw_uid);
+}
+
+
+/* Turn a string specifying either a group name or GID into an actual
+ * gid_t for use in setgid(). A string is assumed to be a GID if
+ * it contains only decimal digits. */
+gid_t
+parse_gid(char *group, char *argv0)
+{
+    char		*probe = group;
+    struct group	*ent;
+
+    while (*probe && isdigit(*probe)) {
+	probe++;
+    }
+    if (!(*probe)) {
+	return atoi(group);
+    }
+    if (!(ent = getgrnam(group))) {
+	fprintf(stderr, "%s: Bad group name %s\n", argv0, group);
+	exit(1);
+    }
+    return (ent->gr_gid);
+}
+#endif /* _WIN32 */
