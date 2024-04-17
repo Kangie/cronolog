@@ -141,7 +141,8 @@ struct option long_options[] =
     { "delay",		required_argument,	NULL, 'd' },
     { "once-only", 	no_argument,       	NULL, 'o' },
     { "help",      	no_argument,       	NULL, 'h' },
-    { "version",   	no_argument,       	NULL, 'V' }
+    { "version",   	no_argument,       	NULL, 'V' },
+    { NULL,		0,			NULL, 0 }
 };
 #endif
 

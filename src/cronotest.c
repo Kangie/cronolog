@@ -112,7 +112,8 @@ struct option   long_options[] =
     { "test-subdirs",	required_argument,	NULL, 'D' },
     { "help",       	no_argument,		NULL, 'h' },
     { "version",	no_argument,		NULL, 'V' },
-    { "verbose",	no_argument,		NULL, 'v' }
+    { "verbose",	no_argument,		NULL, 'v' },
+    { NULL,		0,			NULL, 0 }
 };
 
 
