@@ -253,7 +253,7 @@ create_link(char *pfilename,
     {
 	unlink(prevlinkname);
     }
-    if (stat(linkname, &stat_buf) == 0)
+    if (lstat(linkname, &stat_buf) == 0)
     {
 	if (prevlinkname) {
 	    rename(linkname, prevlinkname);
