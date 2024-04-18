@@ -424,8 +424,5 @@ main(int argc, char **argv)
 
 void terminate_self(int sig)
 {
-    time_t time_now = time(NULL);
-    DEBUG(("%s (%d): received signal USR1; terminating.\n",
-		timestamp(time_now), time_now));
     exit(6);
 }
