@@ -105,7 +105,8 @@ void  terminate_self(int);
 
 #ifndef _WIN32
 #define SETUGID_USAGE	"   -u USER,   --set-uid=USER  change to USER before doing anything (name or UID)\n" \
-			"   -g GROUP,  --set-gid=GROUP change to GROUP before doing anything (name or GID)\n"
+			"   -g GROUP,  --set-gid=GROUP change to GROUP before doing anything (name or GID)\n" \
+			"   -U OCTAL,  --umask=OCTAL   sets umask of file/directory creation\n"
 #else
 #define SETUGID_USAGE	""
 #endif
@@ -133,7 +134,7 @@ void  terminate_self(int);
 /* Definition of the short and long program options */
 
 #ifndef _WIN32
-char          *short_options = "ad:eop:s:z:H:P:S:l:hVx:u:g:";
+char          *short_options = "ad:eop:s:z:H:P:S:l:hVx:u:g:U:";
 #else
 char          *short_options = "ad:eop:s:z:H:P:S:l:hVx:";
 #endif
@@ -155,9 +156,15 @@ struct option long_options[] =
     { "set-gid",      	required_argument,     	NULL, 'g' },
     { "once-only", 	no_argument,       	NULL, 'o' },
     { "help",      	no_argument,       	NULL, 'h' },
+    { "umask",     	required_argument, 	NULL, 'U' },
     { "version",   	no_argument,       	NULL, 'V' },
     { NULL,		0,			NULL, 0 }
 };
+#endif
+
+#ifndef _WIN32
+static mode_t saved_umask = 0;
+static mode_t new_umask = 0;
 #endif
 
 /* Main function.
@@ -192,7 +199,9 @@ main(int argc, char **argv)
     int 	log_fd = -1;
 
 #ifndef _WIN32
+    new_umask=umask(037); // default to 640
     while ((ch = getopt_long(argc, argv, short_options, long_options, NULL)) != EOF)
+	umask(new_umask); // Set umask to our default or whatever the user provided
 #else
     while ((ch = getopt(argc, argv, short_options)) != EOF)
 #endif        
